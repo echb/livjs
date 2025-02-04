@@ -1,16 +1,15 @@
-import { effect, TSignal } from "./signals"
+import { effect, type TSignal } from './signals'
 
 export type AnyWidgetElement = HTMLElement & Widget<unknown>
-type TStyle = Partial<Record<keyof CSSStyleDeclaration, string>>;
+type TStyle = Partial<Record<keyof CSSStyleDeclaration, string>>
 
 type HtmlTag = keyof HTMLElementTagNameMap
 
 type Element<T> = {
-  tag: HtmlTag,
-  params?: Params<T>,
+  tag: HtmlTag
+  params?: Params<T>
 }
-type TEvent = Partial<Record<keyof GlobalEventHandlers, (e: unknown) => void>>;
-
+type TEvent = Partial<Record<keyof GlobalEventHandlers, (e: unknown) => void>>
 
 type Params<T> = {
   text?: string | (() => string)
@@ -27,8 +26,8 @@ class Widget<T> {
   #el: AnyWidgetElement
   // key?: string
   items?: unknown[]
-  _style?: TStyle | (() => TStyle);
-  _text?: string | (() => string);
+  _style?: TStyle | (() => TStyle)
+  _text?: string | (() => string)
   _event?: TEvent
 
   constructor(element: Element<T>) {
@@ -84,12 +83,12 @@ class Widget<T> {
   // MARK: TODO BUILDER TO IMPROVE PERFORMANCE
   builder(
     items: TSignal<T[]>,
-    builder: (e: T, index: number) => AnyWidgetElement,
+    builder: (e: T, index: number) => AnyWidgetElement
   ) {
     if (!items || !builder) return
     effect(() => {
       for (let i = 0; i < items.value!.length; i++) {
-        const element = items!.value![i];
+        const element = items!.value![i]
         if (this.#el.children[i]) {
           if (this.#el.children[i].isEqualNode(builder(element, i)) === false) {
             this.#el.children[i].replaceWith(builder(element, i))
@@ -100,18 +99,17 @@ class Widget<T> {
       }
       if (this.#el.children.length > items.value!.length) {
         for (let i = items.value!.length; i <= items.value!.length; i++) {
-          this.#el.children[i].remove();
+          this.#el.children[i].remove()
         }
       }
-
     })
   }
 
   #setEvents(events?: TEvent) {
     if (events === undefined) return
-    let a = Object.entries(events)
+    const a = Object.entries(events)
     for (let i = 0; i < a.length; i++) {
-      const [k, v] = a[i];
+      const [k, v] = a[i]
       // @ts-ignore
       this.#el[k] = (e) => {
         e.stopPropagation()
@@ -119,15 +117,13 @@ class Widget<T> {
         v(e)
       }
     }
-
   }
-
 
   #setStyle = (style: TStyle) => {
     if (style === undefined) return
-    let a = Object.entries(style)
+    const a = Object.entries(style)
     for (let i = 0; i < a.length; i++) {
-      const [k, v] = a[i];
+      const [k, v] = a[i]
       // @ts-ignore
       this.#el.style[k] = v
     }
@@ -148,7 +144,10 @@ class Widget<T> {
   }
 }
 
-export const widget = <T>(htmlTag: HtmlTag, params: Params<T>): AnyWidgetElement => {
+export const widget = <T>(
+  htmlTag: HtmlTag,
+  params: Params<T>
+): AnyWidgetElement => {
   return new Widget<T>({ tag: htmlTag, params }).build()
 }
 
@@ -160,5 +159,7 @@ export class Style implements TStyle {
 
 // @ts-ignore
 function hash(randomness = 3) {
-  return [...crypto.getRandomValues(new Uint8Array(randomness))].map(m => (m.toString(16))).join('')
+  return [...crypto.getRandomValues(new Uint8Array(randomness))]
+    .map((m) => m.toString(16))
+    .join('')
 }

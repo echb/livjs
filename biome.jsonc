@@ -3,6 +3,13 @@
     "indentStyle": "space",
     "lineWidth": 80
   },
+  "linter": {
+    "rules": {
+      "complexity": {
+        "noStaticOnlyClass": "off"
+      }
+    }
+  },
   "javascript": {
     "formatter": {
       "semicolons": "asNeeded",

@@ -1,19 +1,26 @@
-import { AnyWidgetElement, widget } from "./core"
-import { Params, router } from "./router"
+import { type AnyWidgetElement, widget } from './core'
+import { type Params, router } from './router'
 
-type JustifyContent = 'space-between' | 'space-around' | 'center' | 'flex-start' | 'flex-end' | 'left' | 'right' | 'stretch'
+type JustifyContent =
+  | 'space-between'
+  | 'space-around'
+  | 'center'
+  | 'flex-start'
+  | 'flex-end'
+  | 'left'
+  | 'right'
+  | 'stretch'
 
-
-export const Row = (
-  params: {
-    justifyContent?: JustifyContent
-    children: AnyWidgetElement[]
-  }) => widget("div", {
+export const Row = (params: {
+  justifyContent?: JustifyContent
+  children: AnyWidgetElement[]
+}) =>
+  widget('div', {
     children: params.children,
     style: {
       display: 'flex',
-      justifyContent: params.justifyContent ?? 'flex-start' as JustifyContent,
-    },
+      justifyContent: params.justifyContent ?? ('flex-start' as JustifyContent)
+    }
   })
 
 export const App = (params: Params) => {
