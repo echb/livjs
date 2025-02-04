@@ -25,10 +25,8 @@
     "vite": "^6.0.1"
   },
   "dependencies": {
-    "oxlint": "^0.15.8",
     "path-to-regexp": "^8.2.0",
-    "vite-plugin-dts": "^4.3.0",
-    "vite-plugin-oxlint": "^1.2.1"
+    "vite-plugin-dts": "^4.3.0"
   },
   "license": "GPL-3.0-or-later"
 }
