@@ -17,7 +17,7 @@ bun
 
 ## Basic example
 ```ts
-import { App, widget, signal, type TSignal } from '../lib/main'
+import { App, widget, signal, type TSignal } from 'livjs'
 
 const count: TSignal<number> = signal(0)
 
@@ -40,7 +40,7 @@ App({
 
 ## Dynamic style example
 ```ts
-import { App, widget, signal, type TSignal } from '../lib/main'
+import { App, widget, signal, type TSignal } from 'livjs'
 
 const count: TSignal<number> = signal(0)
 
@@ -67,7 +67,7 @@ As you can see style and text can be reactive as long as they are functions, by 
 # Router
 - **main.ts**
 ```ts
-import { App, widget, signal, type TSignal } from '../lib/main'
+import { App, widget, signal, type TSignal } from 'livjs'
 
 const count: TSignal<number> = signal(0)
 
