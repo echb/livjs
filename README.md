@@ -101,21 +101,15 @@ App({
 ```
 - **hello.ts**
 ```ts
-import { widget } from '../lib/core'
-import { Navigator } from '../lib/router'
-import { signal } from '../lib/signals'
-import { count } from './store'
-
-const aaa = signal([])
+import { widget, Navigator} from 'livjs'
 
 export default () => {
   return widget('div', {
     children: [
       widget('div', {
-        text: () => `hello world${count.value}`,
+        text: () => `hello world`,
         event: {
           onclick() {
-            count.value!++
             Navigator.push('/about')
           }
         }
@@ -126,8 +120,7 @@ export default () => {
 ```
 - **about.ts**
 ```ts
-import { widget } from '../lib/core'
-import { Navigator } from '../lib/router'
+import { widget, Navigator  } from 'livjs'
 
 export default () => {
   return widget('div', {
@@ -145,6 +138,7 @@ export default () => {
 
 Widget
 
+- css class, id, data attributes
 - builder accept array
 - fix event types
 - fix event propagation when no event present
