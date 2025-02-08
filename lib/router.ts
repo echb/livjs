@@ -6,17 +6,20 @@ type Routes = Route[]
 
 export type Params = {
   children?: AnyWidgetElement[]
-  routes: Routes
+  routes?: Routes
 }
 
 let routes: Routes = []
 
 export const router = (params: Params) => {
-  routes = params.routes
+  document.querySelector('#app')?.replaceChildren(...(params?.children ?? []))
+
+  if (params.routes === undefined) return
+
+  routes = params.routes!
   const a = widget('div', {})
   a.setAttribute('router', '')
 
-  document.querySelector('#app')?.replaceChildren(...(params?.children ?? []))
   document.querySelector('#app')?.append(a)
 
   handle()
