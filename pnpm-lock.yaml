@@ -5,23 +5,14 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  oxlint:
-    specifier: ^0.15.8
-    version: 0.15.8
   path-to-regexp:
     specifier: ^8.2.0
     version: 8.2.0
   vite-plugin-dts:
     specifier: ^4.3.0
     version: 4.5.0(typescript@5.7.3)(vite@6.0.11)
-  vite-plugin-oxlint:
-    specifier: ^1.2.1
-    version: 1.2.1(oxlint@0.15.8)(vite@6.0.11)
 
 devDependencies:
-  prettier:
-    specifier: ^3.4.2
-    version: 3.4.2
   typescript:
     specifier: ~5.7.2
     version: 5.7.3
@@ -304,70 +295,6 @@ packages:
   /@microsoft/tsdoc@0.15.1:
     resolution: {integrity: sha512-4aErSrCR/On/e5G2hDP0wjooqDdauzEbIq8hIkIe5pXV0rtWJZvdCEKL0ykZxex+IxIwBp0eGeV48hQN07dXtw==}
     dev: false
-
-  /@oxlint/darwin-arm64@0.15.8:
-    resolution: {integrity: sha512-KgQC7vDhkwQD45MRK9cpDt8A5aSBfpjXV5+mWxwxgMPJh9fjDIiOjvAvqWu7LVUKi74Fe59yMBU0/ZQdSsYylQ==}
-    cpu: [arm64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@oxlint/darwin-x64@0.15.8:
-    resolution: {integrity: sha512-MQYpapCVzIwZfk2OtsLm/f5BRG7jEFHOwv6fnp4z9mw8UVXBu0GKzVSaK8E2xd84EL+GuG470sGl823vATYg7w==}
-    cpu: [x64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@oxlint/linux-arm64-gnu@0.15.8:
-    resolution: {integrity: sha512-gGvBe+o8Oallj5hIm++jiQZWviHJroGga3DFFXV/gF3nBIqB0F5nDolmw/4l7y+waSeIe5gjf7feaxxam7LVAQ==}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@oxlint/linux-arm64-musl@0.15.8:
-    resolution: {integrity: sha512-hUzXQ+Ig4p+gcJq/XEvHyf/N98THf8Hc3/AV+Hom6oPsLwHyeld88ETfNRGtyvarcaiA+zwlpKqWQCl+0xBcag==}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@oxlint/linux-x64-gnu@0.15.8:
-    resolution: {integrity: sha512-QoSRPBWsLZY8HIMbOE7PIKad2plhwkK2yN30hGxcD6ago2+ykPZxTOEU6+l4Sri3FyGvq5NnF4U1UR62hPhOXg==}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@oxlint/linux-x64-musl@0.15.8:
-    resolution: {integrity: sha512-lttmT5x+DTy2yrMz4+0tUtPoJRA/ogDCUTjYhRVs2PF7f5WDVsyhFiwP8fMbpcogv3wB4Iylb5cwwAQ8/vV5MQ==}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@oxlint/win32-arm64@0.15.8:
-    resolution: {integrity: sha512-p9HCMnhAyVSyoeFmgBhsyJG8900U1dukPo/2mTOT7hRCQ9NTFQhUALQTj3ohsJ9unF21nI5XfHMVqQGuG9NItw==}
-    cpu: [arm64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@oxlint/win32-x64@0.15.8:
-    resolution: {integrity: sha512-dH0W6OOQb5G0CDuT81nKUbAnTfo2SdYeRKodEYUBrXh6pO3YZ8iMl7G1N6TWDO4XBo8nE685/hXDN64e30PO5g==}
-    cpu: [x64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
 
   /@rollup/pluginutils@5.1.4:
     resolution: {integrity: sha512-USm05zrsFxYLPdWWq+K3STlWiT/3ELn3RcV5hJMghpeAIhxfsUIg6mt12CBJBInWMV4VneoV7SfGv8xIwo2qNQ==}
@@ -913,21 +840,6 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  /oxlint@0.15.8:
-    resolution: {integrity: sha512-4hZgDN4a2CaoqKzZ/odAGp0wy2LKCpSQ/MKoMScMb2FiK4CfuUsvRlaUqEL7uYIkvdNjd9OvhRNc7bxpxotVHA==}
-    engines: {node: '>=8.*'}
-    hasBin: true
-    optionalDependencies:
-      '@oxlint/darwin-arm64': 0.15.8
-      '@oxlint/darwin-x64': 0.15.8
-      '@oxlint/linux-arm64-gnu': 0.15.8
-      '@oxlint/linux-arm64-musl': 0.15.8
-      '@oxlint/linux-x64-gnu': 0.15.8
-      '@oxlint/linux-x64-musl': 0.15.8
-      '@oxlint/win32-arm64': 0.15.8
-      '@oxlint/win32-x64': 0.15.8
-    dev: false
-
   /path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
     dev: false
@@ -968,12 +880,6 @@ packages:
       nanoid: 3.3.8
       picocolors: 1.1.1
       source-map-js: 1.2.1
-
-  /prettier@3.4.2:
-    resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
-    engines: {node: '>=14'}
-    hasBin: true
-    dev: true
 
   /punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
@@ -1116,16 +1022,6 @@ packages:
       - '@types/node'
       - rollup
       - supports-color
-    dev: false
-
-  /vite-plugin-oxlint@1.2.1(oxlint@0.15.8)(vite@6.0.11):
-    resolution: {integrity: sha512-RmQBThYeplefFHX5zRsDLjqL1B51roZu/FBqRy5pgnzEvW9w1N/ZA4re9lTdezhU/i7CToi0AmbzqoltxcAfFw==}
-    peerDependencies:
-      oxlint: ^0.15.5
-      vite: ^6.0.7
-    dependencies:
-      oxlint: 0.15.8
-      vite: 6.0.11
     dev: false
 
   /vite@6.0.11:
