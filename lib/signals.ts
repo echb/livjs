@@ -1,21 +1,22 @@
 let subscriber: (() => void) | null = null
 
 export type TSignal<T> = {
-  value?: T
+  value: T
 }
 
-export function signal<T>(value?: T): TSignal<T> {
+export function signal<T>(value: T): TSignal<T> {
   const subscriptions: Set<() => void> = new Set()
+  let _value: T = value
 
   return {
     get value() {
       if (subscriber) {
         subscriptions.add(subscriber)
       }
-      return value
+      return _value
     },
     set value(updated) {
-      value = updated
+      _value = updated
       subscriptions.forEach((fn) => fn())
     }
   }
