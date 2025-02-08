@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "livjs",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "packageManager": "pnpm@8.15.5",
   "files": [
@@ -28,5 +28,11 @@
     "path-to-regexp": "^8.2.0",
     "vite-plugin-dts": "^4.3.0"
   },
-  "license": "GPL-3.0-or-later"
+  "license": "GPL-3.0-or-later",
+  "keywords": [
+    "UI",
+    "UI framework",
+    "ReactiveDOM",
+    "DOM Manipulation"
+  ]
 }
