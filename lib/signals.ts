@@ -29,6 +29,7 @@ export function effect(fn: () => void): void {
 }
 
 export function derived<T>(fn: () => T) {
+  // @ts-ignore
   const derived = signal()
   effect(() => {
     derived.value = fn()
