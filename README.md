@@ -2,7 +2,7 @@
 Livjs is a pure and simple way to build reactive web applications.
 
 
-## Install
+## Create project
 yarn
 
 `yarn create vite my-app --template vanilla-ts`
@@ -14,6 +14,20 @@ pnpm
 bun
 
 `bun create vite my-app --template vanilla-ts`
+
+## Install
+pnpm
+
+`pnpm install livjs`
+
+yarn
+
+`yarn add livjs`
+
+bun
+
+`bun install livjs`
+
 
 ## Basic example
 ```ts
