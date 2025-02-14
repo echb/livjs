@@ -2,6 +2,11 @@
 Livjs is a pure and simple way to build reactive web applications.
 
 
+## Docs
+
+[Livjs docs](https://livjs-docs.pages.dev/)
+
+
 ## Create project
 yarn
 
@@ -152,6 +157,7 @@ export default () => {
 
 Widget
 
+- Navigation methods
 - css class, id, data attributes
 - builder accept array
 - fix event types
