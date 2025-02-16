@@ -13,6 +13,7 @@ type TEvent = Partial<Record<keyof GlobalEventHandlers, (e: unknown) => void>>
 
 type Params<T> = {
   id?: string
+  attributes?: Record<string, string> | (() => Record<string, string>)
   // text?: string | (() => string)
   // child?: AnyWidgetElement
   children?: (AnyWidgetElement | string)[]
@@ -83,6 +84,30 @@ class Widget<T> {
 
     this.setCssClass(element.params?.class)
     this.setId(element.params?.id)
+    this.setDataAttributes(element.params?.attributes)
+  }
+
+  setDataAttributes(
+    attributes?: Record<string, string> | (() => Record<string, string>)
+  ) {
+    if (attributes === undefined || attributes === null) return
+
+    if (attributes instanceof Function) {
+      effect(() => {
+        const temp = attributes()
+        const temp2 = Object.entries(temp)
+        for (let i = 0; i < temp2.length; i++) {
+          const [key, value] = temp2[i]
+          this.#el.setAttribute(key, value)
+        }
+      })
+    } else {
+      const temp = Object.entries(attributes)
+      for (let i = 0; i < temp.length; i++) {
+        const [key, value] = temp[i]
+        this.#el.setAttribute(key, value)
+      }
+    }
   }
 
   setId(id?: string) {
