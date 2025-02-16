@@ -12,8 +12,8 @@ type Element<T> = {
 type TEvent = Partial<Record<keyof GlobalEventHandlers, (e: unknown) => void>>
 
 type Params<T> = {
-  text?: string | (() => string)
-  child?: AnyWidgetElement
+  // text?: string | (() => string)
+  // child?: AnyWidgetElement
   children?: (AnyWidgetElement | string)[]
   style?: TStyle | (() => TStyle)
   event?: TEvent
@@ -36,18 +36,18 @@ class Widget<T> {
     // this.#el.key = this.key
     // this.#el.key = element.params.key
     this._style = element.params?.style
-    this._text = element.params?.text
+    // this._text = element.params?.text
 
-    if (this._text) {
-      if (typeof this._text === 'function') {
-        effect(() => {
-          // @ts-ignore
-          this.#el.textContent = this._text()
-        })
-      } else {
-        this.#el.textContent = this._text
-      }
-    }
+    // if (this._text) {
+    //   if (typeof this._text === 'function') {
+    //     effect(() => {
+    //       // @ts-ignore
+    //       this.#el.textContent = this._text()
+    //     })
+    //   } else {
+    //     this.#el.textContent = this._text
+    //   }
+    // }
 
     if (this._style) {
       if (typeof this._style === 'function') {
@@ -64,9 +64,9 @@ class Widget<T> {
       this.#setChildren(element.params?.children)
     }
 
-    if (element.params?.child) {
-      this.#setChild(element.params?.child)
-    }
+    // if (element.params?.child) {
+    //   this.#setChild(element.params?.child)
+    // }
 
     if (element.params?.event) {
       this.#setEvents(element.params?.event)
@@ -134,10 +134,10 @@ class Widget<T> {
     this.#el.append(...children)
   }
 
-  #setChild = (child?: AnyWidgetElement) => {
-    if (child === undefined) return
-    this.#el.append(child)
-  }
+  // #setChild = (child?: AnyWidgetElement) => {
+  //   if (child === undefined) return
+  //   this.#el.append(child)
+  // }
 
   build() {
     return this.#el as AnyWidgetElement
