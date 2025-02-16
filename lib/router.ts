@@ -5,7 +5,7 @@ type Route = { name: string; path: string; component: () => Promise<unknown> }
 type Routes = Route[]
 
 export type Params = {
-  children?: AnyWidgetElement[]
+  children?: (AnyWidgetElement | string)[]
   routes?: Routes
 }
 

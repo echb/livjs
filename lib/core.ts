@@ -14,7 +14,7 @@ type TEvent = Partial<Record<keyof GlobalEventHandlers, (e: unknown) => void>>
 type Params<T> = {
   text?: string | (() => string)
   child?: AnyWidgetElement
-  children?: AnyWidgetElement[]
+  children?: (AnyWidgetElement | string)[]
   style?: TStyle | (() => TStyle)
   event?: TEvent
   cb?: (el: AnyWidgetElement) => void
@@ -129,7 +129,7 @@ class Widget<T> {
     }
   }
 
-  #setChildren = (children?: AnyWidgetElement[]) => {
+  #setChildren = (children?: (AnyWidgetElement | string)[]) => {
     if (children?.length === 0 || children === undefined) return
     this.#el.append(...children)
   }
@@ -146,7 +146,7 @@ class Widget<T> {
 
 export const widget = <T>(
   htmlTag: HtmlTag,
-  params: Params<T>
+  params?: Params<T>
 ): AnyWidgetElement => {
   return new Widget<T>({ tag: htmlTag, params }).build()
 }
