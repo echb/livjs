@@ -20,6 +20,7 @@ type Params<T> = {
   cb?: (el: AnyWidgetElement) => void
   items?: TSignal<T[]>
   builder?: (e: T, index: number) => AnyWidgetElement | undefined
+  class?: string | string[] | (() => string | string[])
 }
 
 class Widget<T> {
@@ -78,6 +79,27 @@ class Widget<T> {
 
     // @ts-ignore
     this.builder(element?.params?.items!, element?.params?.builder!)
+
+    this.setCssClass(element.params?.class)
+  }
+
+  setCssClass(classParam?: string | string[] | (() => string | string[])) {
+    if (classParam === undefined || classParam === null) return
+    if (typeof classParam === 'string') {
+      this.#el.classList.add(classParam)
+    } else if (Array.isArray(classParam)) {
+      this.#el.classList.add(...classParam)
+    } else {
+      effect(() => {
+        const cssClass = classParam()
+
+        if (typeof cssClass === 'string') {
+          this.#el.setAttribute('class', cssClass)
+        } else {
+          this.#el.setAttribute('class', cssClass.join(' '))
+        }
+      })
+    }
   }
 
   // MARK: TODO BUILDER TO IMPROVE PERFORMANCE
