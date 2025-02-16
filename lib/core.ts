@@ -12,6 +12,7 @@ type Element<T> = {
 type TEvent = Partial<Record<keyof GlobalEventHandlers, (e: unknown) => void>>
 
 type Params<T> = {
+  id?: string
   // text?: string | (() => string)
   // child?: AnyWidgetElement
   children?: (AnyWidgetElement | string)[]
@@ -81,6 +82,12 @@ class Widget<T> {
     this.builder(element?.params?.items!, element?.params?.builder!)
 
     this.setCssClass(element.params?.class)
+    this.setId(element.params?.id)
+  }
+
+  setId(id?: string) {
+    if (id === undefined || id === null) return
+    this.#el.id = id
   }
 
   setCssClass(classParam?: string | string[] | (() => string | string[])) {
