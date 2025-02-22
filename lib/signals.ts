@@ -4,9 +4,9 @@ export type TSignal<T> = {
   value: T
 }
 
-export function signal<T>(value: T): TSignal<T> {
+export function signal<T>(value?: T): TSignal<T> {
   const subscriptions: Set<() => void> = new Set()
-  let _value: T = value
+  let _value: T = value as T
 
   return {
     get value() {
@@ -17,7 +17,9 @@ export function signal<T>(value: T): TSignal<T> {
     },
     set value(updated) {
       _value = updated
-      subscriptions.forEach((fn) => fn())
+      for (const fn of subscriptions) {
+        fn()
+      }
     }
   }
 }
@@ -28,11 +30,10 @@ export function effect(fn: () => void): void {
   subscriber = null
 }
 
-export function derived<T>(fn: () => T) {
-  // @ts-ignore
+export function derived<T>(fn: () => T): TSignal<T> {
   const derived = signal()
   effect(() => {
     derived.value = fn()
   })
-  return derived
+  return derived as TSignal<T>
 }
