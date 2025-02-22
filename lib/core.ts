@@ -11,18 +11,26 @@ type Element<T> = {
 }
 type TEvent = Partial<Record<keyof GlobalEventHandlers, (e: unknown) => void>>
 
+type TChildren =
+  | string
+  | AnyWidgetElement
+  | (string | AnyWidgetElement)[]
+  | (() => (string | AnyWidgetElement)[])
+  | (() => string | AnyWidgetElement)
+
 type Params<T> = {
   id?: string
   attributes?: Record<string, string> | (() => Record<string, string>)
   // text?: string | (() => string)
   // child?: AnyWidgetElement
-  children?: (AnyWidgetElement | string)[]
+  children?: TChildren
   style?: TStyle | (() => TStyle)
   event?: TEvent
   cb?: (el: AnyWidgetElement) => void
   items?: TSignal<T[]>
   builder?: (e: T, index: number) => AnyWidgetElement | undefined
   class?: string | string[] | (() => string | string[])
+  // texts?: (() => string) | (() => string[])
 }
 
 class Widget<T> {
@@ -85,6 +93,56 @@ class Widget<T> {
     this.setCssClass(element.params?.class)
     this.setId(element.params?.id)
     this.setDataAttributes(element.params?.attributes)
+    // this.setTexts(element.params?.texts)
+  }
+
+  #setChildren(children?: TChildren) {
+    if (children === undefined || children === null) return
+
+    effect(() => {
+      if (typeof children === 'string') {
+        this.#el.textContent = children
+        return
+      }
+
+      if (children instanceof Widget) {
+        this.#el.append(children)
+        return
+      }
+
+      const items = typeof children === 'function' ? children() : children
+
+      // @ts-ignore
+      for (let i = 0; i < items.length; i++) {
+        // @ts-ignore
+        const element = items[i]
+
+        let temp: AnyWidgetElement | Text
+
+        if (typeof element === 'string') {
+          temp = document.createTextNode(element)
+        } else {
+          temp = element
+        }
+
+        if (!this.#el.childNodes[i]) {
+          this.#el.appendChild(temp)
+          continue
+        }
+
+        if (this.#el.childNodes[i].isEqualNode(temp) === false) {
+          this.#el.childNodes[i].replaceWith(temp)
+        }
+      }
+
+      // @ts-ignore
+      if (this.#el.childNodes.length > items.length) {
+        // @ts-ignore
+        for (let i = items.length; i <= items.length; i++) {
+          this.#el.childNodes[i].remove()
+        }
+      }
+    })
   }
 
   setDataAttributes(
@@ -183,10 +241,10 @@ class Widget<T> {
     }
   }
 
-  #setChildren = (children?: (AnyWidgetElement | string)[]) => {
-    if (children?.length === 0 || children === undefined) return
-    this.#el.append(...children)
-  }
+  // #setChildren = (children?: (AnyWidgetElement | string)[]) => {
+  //   if (children?.length === 0 || children === undefined) return
+  //   this.#el.append(...children)
+  // }
 
   // #setChild = (child?: AnyWidgetElement) => {
   //   if (child === undefined) return
