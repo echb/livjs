@@ -22,6 +22,10 @@ export const router = (params: Params) => {
 
   document.querySelector('#app')?.append(a)
 
+  window.addEventListener('load', async () => {
+    window.history.replaceState(null, '', window.location.pathname)
+  })
+
   handle()
   // @ts-ignore
   window.navigation.addEventListener('navigate', async () => {
@@ -47,36 +51,36 @@ export class Navigator {
   static findRouteByName = (routes: Routes, name: string) =>
     routes.find((e) => e.name === name)
 
-  static push = (path: string) => {
+  static push = (path: string, data?: unknown) => {
     const route = Navigator.findRouteByPath(routes, path)
 
     if (route?.path === Navigator.current()?.path) return
 
-    window.history.pushState(null, '', path)
+    window.history.pushState(data, '', path)
   }
 
-  static pushNamed = (name: string) => {
+  static pushNamed = (name: string, data?: unknown) => {
     const route = Navigator.findRouteByName(routes, name)
 
     if (route?.path === Navigator.current()?.path) return
 
-    window.history.pushState(null, '', route?.path)
+    window.history.pushState(data, '', route?.path)
   }
 
-  static replaceNamed = (name: string) => {
+  static replaceNamed = (name: string, data?: unknown) => {
     const route = Navigator.findRouteByName(routes, name)
 
     if (route?.path === Navigator.current()?.path) return
 
-    window.history.replaceState(null, '', route?.path)
+    window.history.replaceState(data, '', route?.path)
   }
 
-  static replace = (path: string) => {
+  static replace = (path: string, data?: unknown) => {
     const route = Navigator.findRouteByPath(routes, path)
 
     if (route?.path === Navigator.current()?.path) return
 
-    window.history.replaceState(null, '', path)
+    window.history.replaceState(data, '', path)
   }
 
   static go = (qo: number) => {
