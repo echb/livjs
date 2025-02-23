@@ -63,6 +63,22 @@ export class Navigator {
     history.pushState(null, '', route?.path)
   }
 
+  static replaceNamed = (name: string) => {
+    const route = Navigator.findRouteByName(routes, name)
+
+    if (route?.path === Navigator.current()?.path) return
+
+    history.replaceState(null, '', route?.path)
+  }
+
+  static replace = (path: string) => {
+    const route = Navigator.findRouteByPath(routes, path)
+
+    if (route?.path === Navigator.current()?.path) return
+
+    history.replaceState(null, '', path)
+  }
+
   static current = () =>
     Navigator.findRouteByPath(routes, window.location.pathname)
 }
