@@ -52,7 +52,7 @@ export class Navigator {
 
     if (route?.path === Navigator.current()?.path) return
 
-    history.pushState(null, '', path)
+    window.history.pushState(null, '', path)
   }
 
   static pushNamed = (name: string) => {
@@ -60,7 +60,7 @@ export class Navigator {
 
     if (route?.path === Navigator.current()?.path) return
 
-    history.pushState(null, '', route?.path)
+    window.history.pushState(null, '', route?.path)
   }
 
   static replaceNamed = (name: string) => {
@@ -68,7 +68,7 @@ export class Navigator {
 
     if (route?.path === Navigator.current()?.path) return
 
-    history.replaceState(null, '', route?.path)
+    window.history.replaceState(null, '', route?.path)
   }
 
   static replace = (path: string) => {
@@ -76,7 +76,11 @@ export class Navigator {
 
     if (route?.path === Navigator.current()?.path) return
 
-    history.replaceState(null, '', path)
+    window.history.replaceState(null, '', path)
+  }
+
+  static go = (qo: number) => {
+    window.history.go(qo)
   }
 
   static current = () =>
