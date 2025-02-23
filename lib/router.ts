@@ -89,6 +89,8 @@ export class Navigator {
 
   static current = () =>
     Navigator.findRouteByPath(routes, window.location.pathname)
+
+  static params = () => Navigator.current()?.params
 }
 
 async function handle() {
