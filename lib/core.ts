@@ -9,7 +9,13 @@ type Element<T> = {
   tag: HtmlTag
   params?: Params<T>
 }
-type TEvent = Partial<Record<keyof GlobalEventHandlers, (e: unknown) => void>>
+
+type GenericEventHandler<K extends keyof HTMLElementEventMap> = Partial<
+  Record<K, (e: any) => void>
+  // Record<K, (e: HTMLElementEventMap[K]) => void>
+>
+
+type TEvent = GenericEventHandler<keyof HTMLElementEventMap>
 
 type TChildren =
   | string
@@ -222,12 +228,10 @@ class Widget<T> {
     const a = Object.entries(events)
     for (let i = 0; i < a.length; i++) {
       const [k, v] = a[i]
-      // @ts-ignore
-      this.#el[k] = (e) => {
-        e.stopPropagation()
-        // @ts-ignore
+      this.#el.addEventListener(k, (e) => {
+        e?.stopPropagation()
         v(e)
-      }
+      })
     }
   }
 
