@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "publish": "pnpm build && pnpm publish"
+    "upload": "pnpm build && npm publish"
   },
   "devDependencies": {
     "typescript": "~5.7.2",
