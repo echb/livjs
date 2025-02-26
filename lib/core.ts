@@ -111,7 +111,7 @@ class Widget<T> {
         return
       }
 
-      if (children instanceof Widget) {
+      if (children instanceof HTMLElement) {
         this.#el.append(children)
         return
       }
