@@ -1,7 +1,7 @@
 import { effect, type TSignal } from './signals'
 
 export type AnyWidgetElement = HTMLElement & Widget<unknown>
-type TStyle = Partial<Record<keyof CSSStyleDeclaration, string>>
+export type TStyle = Partial<Record<keyof CSSStyleDeclaration, string>>
 
 type HtmlTag = keyof HTMLElementTagNameMap
 
@@ -17,7 +17,7 @@ type GenericEventHandler<K extends keyof HTMLElementEventMap> = Partial<
 
 type TEvent = GenericEventHandler<keyof HTMLElementEventMap>
 
-type TChildren =
+export type TChildren =
   | string
   | AnyWidgetElement
   | (string | AnyWidgetElement)[]
