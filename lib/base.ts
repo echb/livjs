@@ -1,4 +1,9 @@
-import { type AnyWidgetElement, widget } from './core'
+import {
+  type AnyWidgetElement,
+  type TChildren,
+  type TStyle,
+  widget
+} from './core'
 import { router, type Routes } from './router'
 
 type JustifyContent =
@@ -13,13 +18,30 @@ type JustifyContent =
 
 export const Row = (params: {
   justifyContent?: JustifyContent
-  children: AnyWidgetElement[]
+  children: TChildren
+  style?: TStyle
 }) =>
   widget('div', {
     children: params.children,
     style: {
       display: 'flex',
-      justifyContent: params.justifyContent ?? ('flex-start' as JustifyContent)
+      justifyContent: params.justifyContent ?? ('flex-start' as JustifyContent),
+      ...params.style
+    }
+  })
+
+export const Column = (params: {
+  justifyContent?: JustifyContent
+  children: TChildren
+  style?: TStyle
+}) =>
+  widget('div', {
+    children: params.children,
+    style: {
+      display: 'flex',
+      alignItems: params.justifyContent ?? ('flex-start' as JustifyContent),
+      flexDirection: 'column',
+      ...params.style
     }
   })
 
