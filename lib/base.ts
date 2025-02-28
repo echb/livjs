@@ -1,5 +1,5 @@
 import { type AnyWidgetElement, widget } from './core'
-import { type Params, router } from './router'
+import { router, type Routes } from './router'
 
 type JustifyContent =
   | 'space-between'
@@ -23,6 +23,19 @@ export const Row = (params: {
     }
   })
 
+export type Params = {
+  children?: (AnyWidgetElement | string)[]
+  routes?: Routes
+  selector?: string
+}
+
 export const App = (params: Params) => {
-  router(params)
+  const fallbackElement = '#app'
+
+  document
+    .querySelector(params.selector ?? fallbackElement)
+    ?.replaceChildren(...(params?.children ?? []))
+
+  if (params.routes === undefined) return
+  router(params.routes, params.selector ?? fallbackElement)
 }

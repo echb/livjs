@@ -1,26 +1,21 @@
 import { match } from 'path-to-regexp'
-import { type AnyWidgetElement, widget } from './core'
+import { widget } from './core'
 
-type Route = { name: string; path: string; component: () => Promise<unknown> }
-type Routes = Route[]
-
-export type Params = {
-  children?: (AnyWidgetElement | string)[]
-  routes?: Routes
+export type Route = {
+  name: string
+  path: string
+  component: () => Promise<unknown>
 }
+export type Routes = Route[]
 
 let routes: Routes = []
 
-export const router = (params: Params) => {
-  document.querySelector('#app')?.replaceChildren(...(params?.children ?? []))
+export const router = (pRoutes: Routes, selector: string) => {
+  routes = pRoutes!
+  const routerElement = widget('div')
+  routerElement.setAttribute('router', '')
 
-  if (params.routes === undefined) return
-
-  routes = params.routes!
-  const a = widget('div', {})
-  a.setAttribute('router', '')
-
-  document.querySelector('#app')?.append(a)
+  document.querySelector(selector!)?.append(routerElement)
 
   window.addEventListener('load', async () => {
     window.history.replaceState(null, '', window.location.pathname)
