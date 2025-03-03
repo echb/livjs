@@ -1,4 +1,4 @@
-import { effect, type TSignal } from './signals'
+import { effect } from './signals'
 
 export type AnyWidgetElement = HTMLElement & Widget
 export type TStyle = Partial<Record<keyof CSSStyleDeclaration, string>>
@@ -24,6 +24,12 @@ export type TChildren =
   | (() => (string | AnyWidgetElement)[])
   | (() => string | AnyWidgetElement)
 
+export type TClass =
+  | string
+  | string[]
+  | (() => string | string[])
+  | Promise<typeof import('*.module.css')>
+
 export type TWParams = {
   id?: string
   attributes?: Record<string, string> | (() => Record<string, string>)
@@ -35,7 +41,7 @@ export type TWParams = {
   cb?: (el: AnyWidgetElement) => void
   // items?: TSignal<T[]>
   // builder?: (e: T, index: number) => AnyWidgetElement | undefined
-  class?: string | string[] | (() => string | string[])
+  class?: TClass
   // texts?: (() => string) | (() => string[])
 }
 class Widget {
@@ -178,20 +184,32 @@ class Widget {
     this.#el.id = id
   }
 
-  setCssClass(classParam?: string | string[] | (() => string | string[])) {
+  #getCss = async (a: Promise<typeof import('*.module.css')>) => {
+    return Object.values((await a).default)
+  }
+
+  setCssClass(classParam?: TClass) {
     if (classParam === undefined || classParam === null) return
     if (typeof classParam === 'string') {
       this.#el.classList.add(classParam)
     } else if (Array.isArray(classParam)) {
       this.#el.classList.add(...classParam)
+    } else if (classParam instanceof Promise) {
+      this.#getCss(classParam).then((cssClass) => {
+        this.#el.classList.add(...cssClass)
+      })
     } else {
       effect(() => {
         const cssClass = classParam()
 
         if (typeof cssClass === 'string') {
           this.#el.setAttribute('class', cssClass)
-        } else {
-          this.#el.setAttribute('class', cssClass.join(' '))
+        } else if (Array.isArray(classParam)) {
+          this.#el.setAttribute('class', classParam.join(' '))
+        } else if (classParam instanceof Promise) {
+          this.#getCss(classParam).then((cssClass) => {
+            this.#el.setAttribute('class', cssClass.join(' '))
+          })
         }
       })
     }
