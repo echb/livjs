@@ -196,7 +196,7 @@ class Widget {
       this.#el.classList.add(...classParam)
     } else if (classParam instanceof Promise) {
       this.#getCss(classParam).then((cssClass) => {
-        this.#el.classList.add(...cssClass)
+        this.#el.classList.add(...(cssClass as string[]))
       })
     } else {
       effect(() => {
