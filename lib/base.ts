@@ -2,6 +2,7 @@ import {
   type AnyWidgetElement,
   type TChildren,
   type TStyle,
+  type TWParams,
   widget
 } from './core'
 import { router, type Routes } from './router'
@@ -61,3 +62,17 @@ export const App = (params: Params) => {
   if (params.routes === undefined) return
   router(params.routes, params.selector ?? fallbackElement)
 }
+
+type TargetObject = Record<
+  Partial<keyof HTMLElementTagNameMap>,
+  (params?: TWParams) => AnyWidgetElement
+>
+
+const handler = {
+  get(_: TargetObject, prop: keyof HTMLElementTagNameMap, __: unknown) {
+    return (params?: TWParams) => widget(prop, params)
+  }
+}
+
+// @ts-ignore
+export const tags: TargetObject = new Proxy({}, handler)
