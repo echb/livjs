@@ -1,13 +1,13 @@
 import { effect, type TSignal } from './signals'
 
-export type AnyWidgetElement = HTMLElement & Widget<unknown>
+export type AnyWidgetElement = HTMLElement & Widget
 export type TStyle = Partial<Record<keyof CSSStyleDeclaration, string>>
 
 type HtmlTag = keyof HTMLElementTagNameMap
 
-type Element<T> = {
+type Element = {
   tag: HtmlTag
-  params?: Params<T>
+  params?: TWParams
 }
 
 type GenericEventHandler<K extends keyof HTMLElementEventMap> = Partial<
@@ -24,7 +24,7 @@ export type TChildren =
   | (() => (string | AnyWidgetElement)[])
   | (() => string | AnyWidgetElement)
 
-type Params<T> = {
+export type TWParams = {
   id?: string
   attributes?: Record<string, string> | (() => Record<string, string>)
   // text?: string | (() => string)
@@ -33,21 +33,20 @@ type Params<T> = {
   style?: TStyle | (() => TStyle)
   event?: TEvent
   cb?: (el: AnyWidgetElement) => void
-  items?: TSignal<T[]>
-  builder?: (e: T, index: number) => AnyWidgetElement | undefined
+  // items?: TSignal<T[]>
+  // builder?: (e: T, index: number) => AnyWidgetElement | undefined
   class?: string | string[] | (() => string | string[])
   // texts?: (() => string) | (() => string[])
 }
-
-class Widget<T> {
+class Widget {
   #el: AnyWidgetElement
   // key?: string
-  items?: unknown[]
+  // items?: unknown[]
   _style?: TStyle | (() => TStyle)
   _text?: string | (() => string)
   _event?: TEvent
 
-  constructor(element: Element<T>) {
+  constructor(element: Element) {
     this.#el = document.createElement(element.tag) as AnyWidgetElement
     // this.key = hash()
     // this.#el.key = this.key
@@ -94,7 +93,7 @@ class Widget<T> {
     }
 
     // @ts-ignore
-    this.builder(element?.params?.items!, element?.params?.builder!)
+    // this.builder(element?.params?.items!, element?.params?.builder!)
 
     this.setCssClass(element.params?.class)
     this.setId(element.params?.id)
@@ -199,29 +198,29 @@ class Widget<T> {
   }
 
   // MARK: TODO BUILDER TO IMPROVE PERFORMANCE
-  builder(
-    items: TSignal<T[]>,
-    builder: (e: T, index: number) => AnyWidgetElement
-  ) {
-    if (!items || !builder) return
-    effect(() => {
-      for (let i = 0; i < items.value!.length; i++) {
-        const element = items!.value![i]
-        if (this.#el.children[i]) {
-          if (this.#el.children[i].isEqualNode(builder(element, i)) === false) {
-            this.#el.children[i].replaceWith(builder(element, i))
-          }
-        } else {
-          this.#el.appendChild(builder(element, i))
-        }
-      }
-      if (this.#el.children.length > items.value!.length) {
-        for (let i = items.value!.length; i <= items.value!.length; i++) {
-          this.#el.children[i].remove()
-        }
-      }
-    })
-  }
+  // builder(
+  //   items: TSignal<T[]>,
+  //   builder: (e: T, index: number) => AnyWidgetElement
+  // ) {
+  //   if (!items || !builder) return
+  //   effect(() => {
+  //     for (let i = 0; i < items.value!.length; i++) {
+  //       const element = items!.value![i]
+  //       if (this.#el.children[i]) {
+  //         if (this.#el.children[i].isEqualNode(builder(element, i)) === false) {
+  //           this.#el.children[i].replaceWith(builder(element, i))
+  //         }
+  //       } else {
+  //         this.#el.appendChild(builder(element, i))
+  //       }
+  //     }
+  //     if (this.#el.children.length > items.value!.length) {
+  //       for (let i = items.value!.length; i <= items.value!.length; i++) {
+  //         this.#el.children[i].remove()
+  //       }
+  //     }
+  //   })
+  // }
 
   #setEvents(events?: TEvent) {
     if (events === undefined) return
@@ -260,11 +259,11 @@ class Widget<T> {
   }
 }
 
-export const widget = <T>(
+export const widget = (
   htmlTag: HtmlTag,
-  params?: Params<T>
+  params?: TWParams
 ): AnyWidgetElement => {
-  return new Widget<T>({ tag: htmlTag, params }).build()
+  return new Widget({ tag: htmlTag, params }).build()
 }
 
 export class Style implements TStyle {
