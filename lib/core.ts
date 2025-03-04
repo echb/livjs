@@ -24,11 +24,7 @@ export type TChildren =
   | (() => (string | AnyWidgetElement)[])
   | (() => string | AnyWidgetElement)
 
-export type TClass =
-  | string
-  | string[]
-  | (() => string | string[])
-  | Promise<typeof import('*.module.css')>
+export type TClass = string | string[] | (() => string | string[])
 
 export type TWParams = {
   id?: string
@@ -184,32 +180,20 @@ class Widget {
     this.#el.id = id
   }
 
-  #getCss = async (a: Promise<typeof import('*.module.css')>) => {
-    return Object.values((await a).default)
-  }
-
   setCssClass(classParam?: TClass) {
     if (classParam === undefined || classParam === null) return
     if (typeof classParam === 'string') {
       this.#el.classList.add(classParam)
     } else if (Array.isArray(classParam)) {
       this.#el.classList.add(...classParam)
-    } else if (classParam instanceof Promise) {
-      this.#getCss(classParam).then((cssClass) => {
-        this.#el.classList.add(...(cssClass as string[]))
-      })
     } else {
       effect(() => {
         const cssClass = classParam()
 
         if (typeof cssClass === 'string') {
           this.#el.setAttribute('class', cssClass)
-        } else if (Array.isArray(classParam)) {
-          this.#el.setAttribute('class', classParam.join(' '))
-        } else if (classParam instanceof Promise) {
-          this.#getCss(classParam).then((cssClass) => {
-            this.#el.setAttribute('class', cssClass.join(' '))
-          })
+        } else {
+          this.#el.setAttribute('class', cssClass.join(' '))
         }
       })
     }
