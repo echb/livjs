@@ -1,4 +1,5 @@
 export * from './core'
 export * from './base'
 export * from './signals'
-export { Navigator } from './router'
+export * from './tags'
+export { Navigator, type Route, type Routes } from './router'
