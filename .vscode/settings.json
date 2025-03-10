@@ -3,5 +3,10 @@
   "editor.defaultFormatter": "biomejs.biome",
   "[jsonc]": {
     "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports.biome": "explicit"
+    }
   }
 }

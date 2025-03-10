@@ -61,3 +61,53 @@ export const App = (params: Params) => {
   if (params.routes === undefined) return
   router(params.routes, params.selector ?? fallbackElement)
 }
+
+export const Lazy = (
+  component: () => Promise<unknown>,
+  options?: IntersectionObserverInit
+) =>
+  widget('div', {
+    cb(el) {
+      const fallbackOptions = {
+        root: el.parentElement,
+        rootMargin: '0px',
+        threshold: 1.0,
+        ...options
+      }
+
+      const callback = (
+        entries: IntersectionObserverEntry[],
+        observer: IntersectionObserver
+      ) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) {
+            continue
+          }
+
+          observer.disconnect()
+          requestIdleCallback(() => {
+            component().then((e) => {
+              // @ts-ignore
+              el.replaceWith(e.default)
+            })
+          })
+        }
+      }
+
+      const observer = new IntersectionObserver(callback, fallbackOptions)
+      observer.observe(el)
+    }
+  })
+
+export const ScopedCss = (params: () => Promise<typeof import('*?inline')>) =>
+  widget('style', {
+    cb(el) {
+      params().then((e) => {
+        el.replaceWith(
+          widget('style', {
+            children: `@scope{${e.default}}`
+          })
+        )
+      })
+    }
+  })
