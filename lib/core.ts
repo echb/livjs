@@ -245,10 +245,7 @@ class Widget {
     const a = Object.entries(events)
     for (let i = 0; i < a.length; i++) {
       const [k, v] = a[i]
-      this.#el.addEventListener(k, (e) => {
-        e?.stopPropagation()
-        v(e)
-      })
+      this.#el.addEventListener(k, v)
     }
   }
 
