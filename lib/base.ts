@@ -4,7 +4,7 @@ import {
   type TStyle,
   widget
 } from './core'
-import { router, type Routes } from './router'
+import { type Routes, router } from './router'
 
 type JustifyContent =
   | 'space-between'
@@ -64,9 +64,20 @@ export const App = (params: Params) => {
 
 export const Lazy = (
   component: () => Promise<unknown>,
-  options?: IntersectionObserverInit
+  {
+    options,
+    loadingChild,
+    errorChild,
+    errorHandler
+  }: {
+    options?: IntersectionObserverInit
+    loadingChild?: AnyWidgetElement
+    errorChild: AnyWidgetElement
+    errorHandler: (error: Error) => void
+  }
 ) =>
   widget('div', {
+    children: loadingChild,
     cb(el) {
       const fallbackOptions = {
         root: el.parentElement,
@@ -86,10 +97,15 @@ export const Lazy = (
 
           observer.disconnect()
           requestIdleCallback(() => {
-            component().then((e) => {
-              // @ts-ignore
-              el.replaceWith(e.default)
-            })
+            component()
+              .then((e) => {
+                // @ts-ignore
+                el.replaceWith(e.default)
+              })
+              .catch((e) => {
+                errorHandler(e)
+                el.replaceWith(errorChild)
+              })
           })
         }
       }
