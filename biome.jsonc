@@ -1,10 +1,16 @@
 {
+  "organizeImports": {
+    "enabled": true
+  },
   "formatter": {
     "indentStyle": "space",
     "lineWidth": 80
   },
   "linter": {
     "rules": {
+      "correctness": {
+        "noUnusedImports": "warn"
+      },
       "complexity": {
         "noStaticOnlyClass": "off"
       },
