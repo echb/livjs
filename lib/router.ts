@@ -1,5 +1,4 @@
 import { match } from 'path-to-regexp'
-import { widget } from './core'
 
 export type Route = {
   name: string
@@ -10,12 +9,8 @@ export type Routes = Route[]
 
 let routes: Routes = []
 
-export const router = (pRoutes: Routes, selector: string) => {
+export const router = (pRoutes: Routes) => {
   routes = pRoutes!
-  const routerElement = widget('div')
-  routerElement.setAttribute('router', '')
-
-  document.querySelector(selector!)?.append(routerElement)
 
   window.addEventListener('load', async () => {
     window.history.replaceState(null, '', window.location.pathname)

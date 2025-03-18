@@ -59,7 +59,7 @@ export const App = (params: Params) => {
     ?.replaceChildren(...(params?.children ?? []))
 
   if (params.routes === undefined) return
-  router(params.routes, params.selector ?? fallbackElement)
+  router(params.routes)
 }
 
 export const Lazy = (
@@ -127,3 +127,8 @@ export const ScopedCss = (params: () => Promise<typeof import('*?inline')>) =>
       })
     }
   })
+
+export const RouterView = () => {
+  const routerElement = widget('div', { attributes: { router: '' } })
+  return routerElement
+}
