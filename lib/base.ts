@@ -62,7 +62,7 @@ export const App = (params: Params) => {
   router(params.routes)
 }
 
-export const Lazy = (
+export const LazyIntersect = (
   component: () => Promise<unknown>,
   {
     options,
@@ -112,6 +112,35 @@ export const Lazy = (
 
       const observer = new IntersectionObserver(callback, fallbackOptions)
       observer.observe(el)
+    }
+  })
+
+export const Lazy = (
+  component: () => Promise<unknown>,
+  {
+    loadingChild,
+    errorChild,
+    errorHandler
+  }: {
+    loadingChild?: AnyWidgetElement
+    errorChild: AnyWidgetElement
+    errorHandler: (error: Error) => void
+  }
+) =>
+  widget('div', {
+    children: loadingChild,
+    cb(el) {
+      requestAnimationFrame(() => {
+        component()
+          .then((e) => {
+            // @ts-ignore
+            el.replaceWith(e.default)
+          })
+          .catch((e) => {
+            errorHandler(e)
+            el.replaceWith(errorChild)
+          })
+      })
     }
   })
 
