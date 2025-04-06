@@ -9,14 +9,14 @@ export type Routes = Route[]
 
 let routes: Routes = []
 
-export const router = (pRoutes: Routes) => {
+export const router = async (pRoutes: Routes) => {
   routes = pRoutes!
 
   window.addEventListener('load', async () => {
     window.history.replaceState(null, '', window.location.pathname)
   })
 
-  handle()
+  await handle()
   // @ts-ignore
   window.navigation.addEventListener('navigate', async () => {
     await handle()
