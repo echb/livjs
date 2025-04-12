@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "livjs",
-  "version": "0.55.3",
+  "version": "0.55.4",
   "type": "module",
   "packageManager": "pnpm@8.15.5",
   "files": [
