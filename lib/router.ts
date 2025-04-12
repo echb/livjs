@@ -92,5 +92,5 @@ async function handle() {
   const cp = Navigator.findRouteByPath(routes, window.location.pathname)
   const comp = await cp?.c.component()
   // @ts-ignore
-  document.querySelector('[router]')?.replaceChildren(comp.default())
+  document.querySelector('[router]')?.replaceChildren(await comp.default())
 }
