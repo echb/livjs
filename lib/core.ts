@@ -191,7 +191,7 @@ class Widget {
   setCssClass(classParam?: TClass) {
     if (classParam === undefined || classParam === null) return
     if (typeof classParam === 'string') {
-      this.#el.classList.add(classParam)
+      this.#el.classList.add(...classParam.split(' '))
     } else if (Array.isArray(classParam)) {
       this.#el.classList.add(...classParam)
     } else if (classParam instanceof Promise) {
